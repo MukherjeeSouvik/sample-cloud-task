@@ -1,0 +1,19 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cloud-task-app
+spec:
+  schedule: "*/1 * * * *"
+  suspend: false
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cloud-task-app
+            image: 'gcr.io/tonal-carving-252503/cloud-task-app:v1'
+            args:
+            - /bin/sh
+            - -c
+            - echo 'Starting Spring Batch Task' && java -jar app.jar
+          restartPolicy: OnFailure
